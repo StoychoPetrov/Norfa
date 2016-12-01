@@ -1,0 +1,75 @@
+<resources>
+    <string name="app_name">Norfa</string>
+    <string name="base_url">http://norfa.com/cgi-bin/norfa.cgi?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="loginInformation">Login Information</string>
+    <string name="login">Login:</string>
+    <string name="password">Password:</string>
+    <string name="confirm_password">Confirm password:</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="account_type">Account Type:</string>
+    <string name="name">Name:</string>
+    <string name="address">Address:</string>
+    <string name="city">City:</string>
+    <string name="country">Country:</string>
+    <string name="email">Email:</string>
+    <string name="created_on">Created on:</string>
+    <string name="display_information_to_show">Display Information to Show</string>
+    <string name="friend_details">Friend Details:</string>
+    <string name="friend_count">Friend Count:</string>
+    <string name="confirmed_friend_count">Confirmed Friend Count:</string>
+    <string name="other_information">Other Information</string>
+    <string name="bookmark_tagged_pictures">Bookmark Tagged Pictures:</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="refresh_banner">Refresh Banner:</string>
+    <string name="never">Never</string>
+    <string name="confirm_delete">Confirm Delete:</string>
+    <string name="sort_order_by">Sort Order By:</string>
+    <string name="banner_friend_rotation">Banner Friend Rotation:</string>
+    <string name="personal">Personal</string>
+    <string name="business">Business</string>
+    <string name="friends_only">Friends</string>
+    <string name="all">All</string>
+    <string name="thirtySec">30s</string>
+    <string name="sixtySec">60s</string>
+    <string name="oneHundredAndTwentySec">120s</string>
+    <string name="hour">hour</string>
+    <string name="date">Date</string>
+    <string name="friends">Friends</string>
+    <string name="tenSec">10s</string>
+    <string name="listAll">List All</string>
+    <string name="submit">submit</string>
+    <string name="profile_picture">profile picture</string>
+    <string name="username">USERNAME</string>
+    <string name="loginPassword">Password</string>
+    <string name="remember_me">remember me</string>
+    <string name="stay_always_logged_in">Stay always logged in</string>
+    <string name="register">REGISTER</string>
+    <string name="loginButton">LOGIN</string>
+    <string name="pressToJoinFriends">Press to join Friends</string>
+    <string name="thankYou">Thank you for joining</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="joined_on">Joined on</string>
+    <string name="tagged_on">Tagged on</string>
+    <string name="confirmed_on">Confirmed on</string>
+    <string name="friends_count">Friends Count:</string>
+    <string name="coinfirmed_friends_count">Confirmed Friends Count:</string>
+
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+
+    <string name="deleteFriend">Are you sure that you want delete the friend ?</string>
+
+    <string name="veryfying">Veryfy that both picture show the same person</string>
+
+    <string-array name="drawer">
+        <item name="friendsDrawer">FRIENDS</item>
+        <item name="favoritesDrawer">FAVORITES</item>
+        <item name="bannerDrawer">BANNER</item>
+        <item name="edit_profile">EDIT_PROFILE</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

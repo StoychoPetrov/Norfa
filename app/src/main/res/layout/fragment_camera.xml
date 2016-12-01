@@ -1,0 +1,124 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.example.stoycho.norfa.fragments.CameraFragment">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:id="@+id/textureLayout"
+        android:paddingTop="30dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp">
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="50dp"
+            android:id="@+id/border"
+            android:background="@color/barColor"/>
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:id="@+id/secondBorder"
+            android:background="@color/barColor"
+            android:layout_toEndOf="@+id/border"/>
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:id="@+id/thirdBorder"
+            android:background="@color/barColor"
+            android:layout_alignParentEnd="true" />
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="50dp"
+            android:id="@+id/fourthBorder"
+            android:background="@color/barColor"
+            android:layout_below="@+id/thirdBorder"
+            android:layout_alignParentEnd="true" />
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="50dp"
+            android:id="@+id/fifthBorder"
+            android:background="@color/barColor"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"/>
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:id="@+id/sixthBorder"
+            android:background="@color/barColor"
+            android:layout_toStartOf="@+id/fifthBorder"
+            android:layout_alignParentBottom="true"/>
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:id="@+id/seventhBorder"
+            android:background="@color/barColor"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/eighthBorder"/>
+        <View
+            android:layout_width="5dp"
+            android:layout_height="50dp"
+            android:id="@+id/eighthBorder"
+            android:background="@color/barColor"
+            android:layout_alignParentBottom="true"/>
+
+        <com.example.stoycho.norfa.models.AutoFitTextureView
+            android:id="@+id/texture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/secondBorder"
+            android:layout_above="@+id/sixthBorder"
+            android:layout_toStartOf="@+id/fourthBorder"
+            android:layout_toEndOf="@+id/border" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/capture"
+            android:layout_below="@+id/secondBorder"
+            android:layout_above="@+id/sixthBorder"
+            android:layout_toStartOf="@+id/fourthBorder"
+            android:layout_toEndOf="@+id/border"
+            android:scaleType="fitXY"
+            android:visibility="invisible"
+            android:contentDescription="@null"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/textureLayout">
+
+        <Button
+            android:id="@+id/picture"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/camera_button_drawable"
+            android:layout_gravity="center"
+            android:text="@string/pressToJoinFriends"
+            android:layout_centerInParent="true"
+            android:padding="10dp"
+            android:visibility="visible"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress"
+            android:visibility="gone"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
