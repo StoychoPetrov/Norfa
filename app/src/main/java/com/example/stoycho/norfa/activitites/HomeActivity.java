@@ -50,7 +50,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private ImageButton mAddButton;
     private ImageButton mFindButton;
     private TextView mLogOut;
-    private EditText mSearch;
+    public EditText mSearch;
     private TextView mTitle;
     private int mOnEditRegistration;
     private RelativeLayout mMainLayout;

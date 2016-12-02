@@ -63,10 +63,11 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/buttons"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:paddingRight="10dp"
             android:paddingLeft="10dp">
 
@@ -76,21 +77,14 @@
                 android:id="@+id/reload"
                 android:src="@mipmap/ic_reload_on"
                 android:contentDescription="@null"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:id="@+id/favourite"
-                android:src="@mipmap/ic_not_favorite_star_icon"
-                android:contentDescription="@null"
-                android:visibility="invisible"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="1"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:id="@+id/browser"
+                android:paddingTop="5dp"
                 android:src="@mipmap/ic_browser_icon"
                 android:contentDescription="@null"
                 android:layout_weight="1"/>

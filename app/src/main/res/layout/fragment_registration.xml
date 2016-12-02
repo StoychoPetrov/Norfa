@@ -1055,13 +1055,20 @@
                 android:textSize="15sp"
                 android:layout_centerVertical="true"/>
 
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
+
             <RadioGroup
-                android:layout_width="210dp"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/confirmDeleteGroup"
                 android:background="@drawable/radio_button"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:orientation="horizontal"

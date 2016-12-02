@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     tools:context="com.example.stoycho.norfa.fragments.CameraFragment">
 
@@ -74,7 +75,7 @@
         <com.example.stoycho.norfa.models.AutoFitTextureView
             android:id="@+id/texture"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/secondBorder"
             android:layout_above="@+id/sixthBorder"
             android:layout_toStartOf="@+id/fourthBorder"
@@ -88,7 +89,7 @@
             android:layout_above="@+id/sixthBorder"
             android:layout_toStartOf="@+id/fourthBorder"
             android:layout_toEndOf="@+id/border"
-            android:scaleType="fitXY"
+            android:scaleType="center"
             android:visibility="invisible"
             android:contentDescription="@null"/>
 
@@ -101,16 +102,17 @@
         android:layout_alignParentStart="true"
         android:layout_below="@id/textureLayout">
 
-        <Button
+        <ImageButton
             android:id="@+id/picture"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/camera_button_drawable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@android:color/transparent"
             android:text="@string/pressToJoinFriends"
             android:layout_centerInParent="true"
-            android:padding="10dp"
-            android:visibility="visible"/>
+            android:src="@mipmap/ic_camera_icon"
+            android:visibility="visible"
+            android:contentDescription="@null"/>
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -118,6 +120,35 @@
             android:id="@+id/progress"
             android:visibility="gone"
             android:layout_centerInParent="true"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/like_layout"
+            android:layout_centerInParent="true"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:visibility="invisible">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dislike"
+                android:src="@mipmap/ic_dislike_icon"
+                android:background="@android:color/transparent"
+                android:contentDescription="@null"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/like"
+                android:src="@mipmap/ic_thumbs_up_icon"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="@null"/>
+
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

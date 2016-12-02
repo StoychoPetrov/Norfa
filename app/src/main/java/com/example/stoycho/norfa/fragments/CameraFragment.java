@@ -54,6 +54,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -158,6 +159,7 @@ public class CameraFragment extends Fragment
      * Camera state: Showing camera preview.
      */
     private static final int STATE_PREVIEW = 2;
+    private RelativeLayout mLikeLayout;
 
     /**
      * Camera state: Waiting for 3A convergence before capturing a photo.
@@ -205,7 +207,8 @@ public class CameraFragment extends Fragment
     };
 
     private AutoFitTextureView mTextureView;
-
+    private ImageButton mLikeButton;
+    private ImageButton mDislikeButton;
     /**
      * An additional thread for running tasks that shouldn't block the UI.  This is used for all
      * callbacks from the {@link CameraDevice} and {@link CameraCaptureSession}s.
@@ -284,7 +287,7 @@ public class CameraFragment extends Fragment
      * Whether or not the currently configured camera device is fixed-focus.
      */
     private boolean mNoAFRun = false;
-    private Button mTakePicture;
+    private ImageButton mTakePicture;
 
     /**
      * Number of pending user requests to capture a photo.
@@ -391,9 +394,9 @@ public class CameraFragment extends Fragment
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mTakePicture.setVisibility(View.INVISIBLE);
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                         Matrix matrix = new Matrix();
-
                         matrix.setScale(-1f,1f,0.5f,0.5f);
                         matrix.postRotate(90);
                         Bitmap rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
@@ -402,11 +405,13 @@ public class CameraFragment extends Fragment
                         capture.setVisibility(View.VISIBLE);
                         mTextureView.setVisibility(View.GONE);
 
+                        mLikeLayout.setVisibility(View.VISIBLE);
                         String url = ConnectionURL.BASE_URL;
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         rotated.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                         byte[] byteArray = stream.toByteArray();
-                        Task sendPicture = new Task(getActivity(),url, byteArray) {
+
+                        final Task sendPicture = new Task(getActivity(),url, byteArray) {
 
                             @Override
                             protected void onPreExecute()
@@ -425,9 +430,7 @@ public class CameraFragment extends Fragment
                                         if (result.getString("status").equals("OK")) {
                                             if(getActivity() instanceof LoginActivity) {
                                                 mProgressBar.setVisibility(View.GONE);
-                                                mTakePicture.setText(getString(R.string.thankYou));
-                                                mTakePicture.setBackgroundResource(R.drawable.thankyou_button_drawable);
-                                                mTakePicture.setVisibility(View.VISIBLE);
+                                                //mTakePicture.setText(getString(R.string.thankYou));
                                                 Bundle bundle = new Bundle();
                                                 RegistrationFragment registrationFragment = new RegistrationFragment();
                                                 bundle.putString("pic_key", result.getString("pic_key"));
@@ -440,7 +443,7 @@ public class CameraFragment extends Fragment
                                             else if(getActivity() instanceof HomeActivity)
                                             {
                                                 mProgressBar.setVisibility(View.GONE);
-                                                mTakePicture.setText(getString(R.string.thankYou));
+                                                //mTakePicture.setText(getString(R.string.thankYou));
                                                 mTakePicture.setBackgroundResource(R.drawable.thankyou_button_drawable);
                                                 mTakePicture.setVisibility(View.VISIBLE);
                                                 getFragmentManager().popBackStack();
@@ -452,23 +455,38 @@ public class CameraFragment extends Fragment
                                 }
                             }
                         };
-                        if(getActivity() instanceof HomeActivity) {
-                            if(getArguments() != null && getArguments().containsKey("add_friends"))
-                            {
-                                sendPicture.setmComand("friend_add");
-                            }
-                            else
-                                sendPicture.setmComand("pic_edit");
-                        }
-                        else if(getActivity() instanceof LoginActivity)
-                            sendPicture.setmComand("pic_add");
-                        sendPicture.execute();
 
+                        mDislikeButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                capture.setVisibility(View.INVISIBLE);
+                                mTextureView.setVisibility(View.VISIBLE);
+                                mLikeLayout.setVisibility(View.INVISIBLE);
+                                mTakePicture.setVisibility(View.VISIBLE);
+                            }
+                        });
+
+                        mLikeButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mLikeLayout.setVisibility(View.INVISIBLE);
+                                mTakePicture.setVisibility(View.INVISIBLE);
+                                closeCamera();
+                                if(getActivity() instanceof HomeActivity) {
+                                    if(getArguments() != null && getArguments().containsKey("add_friends"))
+                                    {
+                                        sendPicture.setmComand("friend_add");
+                                    }
+                                    else
+                                        sendPicture.setmComand("pic_edit");
+                                }
+                                else if(getActivity() instanceof LoginActivity)
+                                    sendPicture.setmComand("pic_add");
+                                sendPicture.execute();
+                            }
+                        });
                     }
                 });
-
-                closeCamera();
-
 
             } finally {
                 if (image != null) {
@@ -622,9 +640,7 @@ public class CameraFragment extends Fragment
                 handleCompletionLocked(requestId, rawBuilder, mRawResultQueue);
 
                 if (jpegBuilder != null) {
-                    jpegBuilder.setResult(result);
-                    sb.append("Saving JPEG as: ");
-                    sb.append(jpegBuilder.getSaveLocation());
+
                 }
                 if (rawBuilder != null) {
                     rawBuilder.setResult(result);
@@ -634,7 +650,6 @@ public class CameraFragment extends Fragment
                 }
                 finishedCaptureLocked();
             }
-            showToast(sb.toString());
         }
 
         @Override
@@ -667,6 +682,8 @@ public class CameraFragment extends Fragment
     public static CameraFragment newInstance() {
         return new CameraFragment();
     }
+    private int width;
+    private int height;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -676,7 +693,10 @@ public class CameraFragment extends Fragment
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        mTakePicture = (Button) view.findViewById(R.id.picture);
+        mTakePicture = (ImageButton) view.findViewById(R.id.picture);
+        mLikeLayout = (RelativeLayout) view.findViewById(R.id.like_layout);
+        mLikeButton = (ImageButton) view.findViewById(R.id.like);
+        mDislikeButton = (ImageButton) view.findViewById(R.id.dislike);
         mTakePicture.setOnClickListener(this);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
         mTextureLayout = (RelativeLayout) view.findViewById(R.id.textureLayout);
@@ -684,7 +704,10 @@ public class CameraFragment extends Fragment
         capture = (ImageView) view.findViewById(R.id.capture);
         float width = getResources().getDisplayMetrics().widthPixels - 80 * getResources().getDisplayMetrics().density;
         float height = (float) (width * 1.25);
+        this.height = (int) height;
         mTextureLayout.getLayoutParams().height = (int) height;
+        mTextureView.getLayoutParams().width = (int) width;
+        this.width = (int) width;
         Matrix matrix = new Matrix();
         matrix.setScale(-1, 1);
         matrix.postTranslate(mTextureView.getWidth(), 0);

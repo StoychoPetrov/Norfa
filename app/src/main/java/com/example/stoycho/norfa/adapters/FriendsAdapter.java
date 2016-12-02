@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.stoycho.norfa.R;
+import com.example.stoycho.norfa.fragments.BannerFragment;
+import com.example.stoycho.norfa.fragments.FavoritesFragment;
 import com.example.stoycho.norfa.fragments.FriendsFragment;
 import com.example.stoycho.norfa.models.CustomDialogWindow;
 import com.example.stoycho.norfa.models.Friend;
@@ -98,7 +100,7 @@ public class FriendsAdapter extends BaseAdapter implements Dialog.OnDismissListe
         switch (friend.getmState())
         {
             case 0:
-                status.setImageDrawable(ContextCompat.getDrawable(mContext,android.R.drawable.checkbox_on_background));
+                status.setImageDrawable(ContextCompat.getDrawable(mContext,R.mipmap.ic_check_icon));
                 break;
             case 1:
                 status.setImageDrawable(ContextCompat.getDrawable(mContext,R.mipmap.check_2));
@@ -162,6 +164,10 @@ public class FriendsAdapter extends BaseAdapter implements Dialog.OnDismissListe
         if(fragment != null && fragment instanceof FriendsFragment)
         {
             ((FriendsFragment)fragment).downloadFriends();
+        }
+        else if(fragment != null && fragment instanceof FavoritesFragment)
+        {
+            ((FavoritesFragment)fragment).loadFavourites(true);
         }
     }
 }

@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.example.stoycho.norfa.R;
+import com.example.stoycho.norfa.activitites.HomeActivity;
 import com.example.stoycho.norfa.adapters.FavouritesAdapter;
 import com.example.stoycho.norfa.models.Friend;
 import com.example.stoycho.norfa.models.User;
@@ -45,7 +46,7 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
         initUI(root);
         setListeners();
         mUsers = new ArrayList<>();
-        mFavouritesAdapter = new FavouritesAdapter(getActivity(),mUsers);
+        mFavouritesAdapter = new FavouritesAdapter(getActivity(),mUsers,this);
         mFavouritesList.setAdapter(mFavouritesAdapter);
         if(getArguments() != null && getArguments().containsKey("users")) {
             try {
@@ -55,7 +56,7 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
             }
         }
         else
-            loadFavourites();
+            loadFavourites(false);
 
         return root;
     }
@@ -70,9 +71,13 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
         mFavouritesList.setOnItemClickListener(this);
     }
 
-    private void loadFavourites()
+    public void loadFavourites(boolean refreshSearch)
     {
-        String url = ConnectionURL.BASE_URL + ConnectionURL.CMD + "=favs_list&sz=" + Util.getSize(getActivity()) + "&" + ConnectionURL.APIKEY + "=" + SharedPref.getAppKey(getActivity());
+        String url;
+        if(!refreshSearch)
+            url = ConnectionURL.BASE_URL + ConnectionURL.CMD + "=favs_list&sz=" + Util.getSize(getActivity()) + "&" + ConnectionURL.APIKEY + "=" + SharedPref.getAppKey(getActivity());
+        else
+            url = ConnectionURL.BASE_URL + ConnectionURL.CMD + "=search&" + ConnectionURL.APIKEY + "=" + SharedPref.getAppKey(getActivity()) + "&sz=" + Util.getSize(getActivity()) + "&text=" + ((HomeActivity)getActivity()).mSearch.getText().toString();
 
         Task getFavourites = new Task(getActivity(),url,null)
         {
@@ -96,6 +101,7 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     public void createUsers(JSONArray users) {
+        mUsers = new ArrayList<>();
         for (int i = 0; i < users.length(); i++) {
             JSONObject userJson = null;
             try {
@@ -141,7 +147,7 @@ public class FavoritesFragment extends Fragment implements AdapterView.OnItemCli
                     friends.add(friend);
                 }
                 user.setFriends(friends);
-                FavoritesFragment.this.mUsers.add(user);
+                mUsers.add(user);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

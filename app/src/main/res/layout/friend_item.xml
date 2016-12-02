@@ -55,8 +55,7 @@
                 android:paddingEnd="4dp"
                 android:paddingStart="4dp"
                 android:layout_toStartOf="@+id/second_status"
-                android:layout_centerVertical="true"
-                android:src="@android:drawable/checkbox_on_background" />
+                android:layout_centerVertical="true" />
 
             <ImageView
                 android:layout_width="wrap_content"

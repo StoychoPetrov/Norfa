@@ -36,6 +36,7 @@
             android:textColorHint="@android:color/darker_gray"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:imeOptions="actionGo"
             android:inputType="textPassword" />
 
         <RelativeLayout

@@ -51,7 +51,6 @@ public class BannerFragment extends Fragment implements View.OnClickListener {
     private ListView mFriendList;
     private ImageView mReload;
     private ImageView mBrowser;
-    private ImageView mFavourite;
     private FriendsAdapter mFriendsAdapter;
     private User mUser;
     private boolean isReload;
@@ -72,16 +71,17 @@ public class BannerFragment extends Fragment implements View.OnClickListener {
         initUI(root);
         setListeners();
         handler = new Handler();
-        mFriendsAdapter = new FriendsAdapter(getActivity(),new ArrayList<Friend>(),false,null);
+        mFriendsAdapter = new FriendsAdapter(getActivity(),new ArrayList<Friend>(),false,this);
         mFriendList.setAdapter(mFriendsAdapter);
         if(getArguments() != null && getArguments().containsKey("own"))
         {
             mReload.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.mipmap.ic_reload_icon));
+            mBrowser.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.mipmap.ic_browser_icon));
         }
         else
         {
-            mFavourite.setVisibility(View.VISIBLE);
             mReload.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.mipmap.ic_location_icon));
+            mBrowser.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.mipmap.ic_favorite_star_icon));
         }
         loadBanner();
         handler = new Handler();
@@ -108,17 +108,15 @@ public class BannerFragment extends Fragment implements View.OnClickListener {
         mFriendList = (ListView) root.findViewById(R.id.friends);
         mReload = (ImageView) root.findViewById(R.id.reload);
         mBrowser = (ImageView) root.findViewById(R.id.browser);
-        mFavourite = (ImageView) root.findViewById(R.id.favourite);
     }
 
     private void setListeners()
     {
         mReload.setOnClickListener(this);
-        mFavourite.setOnClickListener(this);
         mBrowser.setOnClickListener(this);
     }
 
-    private void loadBanner()
+    public void loadBanner()
     {
         String url = null;
         if(getArguments() != null && getArguments().containsKey("banner"))
@@ -162,6 +160,10 @@ public class BannerFragment extends Fragment implements View.OnClickListener {
                                         friend.setmStatus(friendJson.getString("status"));
                                     if (friendJson.has("action"))
                                         friend.setmAction(friendJson.getString("action"));
+                                    if(friendJson.has("state"))
+                                        friend.setmState(friendJson.getInt("state"));
+                                    else
+                                        friend.setmState(-1);
                                     friends.add(friend);
                                 }
                                 mFriendsAdapter.setmFriends(friends);
@@ -191,17 +193,17 @@ public class BannerFragment extends Fragment implements View.OnClickListener {
                             mUser.setmReload(userJson.getInt("reload"));
                         if(userJson.has("next"))
                             mUser.setmNext(userJson.getString("next"));
-                        if(userJson.has("favorite"))
-                        {
-                            if(userJson.getInt("favorite") == 0) {
-                                mFavourite.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.mipmap.ic_not_favorite_star_icon));
-                                mUser.setmFavourites(true);
+                        if(getArguments() != null && !getArguments().containsKey("own")) {
+                            if (userJson.has("favorite")) {
+                                if (userJson.getInt("favorite") == 0) {
+                                    mBrowser.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.mipmap.ic_not_favorite_star_icon));
+                                    mUser.setmFavourites(true);
+                                } else {
+                                    mBrowser.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.mipmap.ic_favorite_star_icon));
+                                    mUser.setmFavourites(false);
+                                }
+                                isFavorite = userJson.getInt("favorite");
                             }
-                            else {
-                                mFavourite.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.mipmap.ic_favorite_star_icon));
-                                mUser.setmFavourites(false);
-                            }
-                            isFavorite = userJson.getInt("favorite");
                         }
                         if(userJson.has("fav_change"))
                             mUser.setmFavChange(userJson.getString("fav_change"));
@@ -233,11 +235,11 @@ public class BannerFragment extends Fragment implements View.OnClickListener {
             case R.id.reload:
                 onReload();
                 break;
-            case R.id.favourite:
-                onFavorite();
-                break;
             case R.id.browser:
-                ((HomeActivity)getActivity()).setBarHidden();
+                if(getArguments() != null && getArguments().containsKey("own"))
+                    ((HomeActivity)getActivity()).setBarHidden();
+                else
+                    onFavorite();
                 break;
         }
     }
@@ -279,12 +281,12 @@ public class BannerFragment extends Fragment implements View.OnClickListener {
                     {
                         if(isFavorite == 1)
                         {
-                            mFavourite.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.mipmap.ic_not_favorite_star_icon));
+                            mBrowser.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.mipmap.ic_not_favorite_star_icon));
                             isFavorite = 0;
                         }
                         else
                         {
-                            mFavourite.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.mipmap.ic_favorite_star_icon));
+                            mBrowser.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.mipmap.ic_favorite_star_icon));
                             isFavorite = 1;
                         }
                     }

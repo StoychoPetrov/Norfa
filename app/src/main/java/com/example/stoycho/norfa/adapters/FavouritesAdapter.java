@@ -1,5 +1,6 @@
 package com.example.stoycho.norfa.adapters;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +30,13 @@ public class FavouritesAdapter extends BaseAdapter {
     private List<User> mUsers;
     private FriendsAdapter friendsAdapter;
     private LayoutInflater mInflater;
+    private Fragment mFragment;
 
-    public FavouritesAdapter(Context context,List<User> users)
+    public FavouritesAdapter(Context context, List<User> users,Fragment fragment)
     {
         this.mContext = context;
         this.mUsers = users;
+        this.mFragment = fragment;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -84,7 +87,7 @@ public class FavouritesAdapter extends BaseAdapter {
                 friendsList.requestLayout();
             }
         });
-        friendsAdapter = new FriendsAdapter(mContext,user.getFriends(),false,null);
+        friendsAdapter = new FriendsAdapter(mContext,user.getFriends(),false,mFragment);
         friendsList.setAdapter(friendsAdapter);
         friendsList.getLayoutParams().height = 0;
         statusImage.setVisibility(View.GONE);
@@ -102,6 +105,14 @@ public class FavouritesAdapter extends BaseAdapter {
         loadImage.execute();
 
         return convertView;
+    }
+
+    public Fragment getmFragment() {
+        return mFragment;
+    }
+
+    public void setmFragment(Fragment mFragment) {
+        this.mFragment = mFragment;
     }
 
     public void setmUsers(List<User> users)
